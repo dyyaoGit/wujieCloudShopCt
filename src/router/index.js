@@ -24,12 +24,13 @@ export const constantRouterMap = [
     {path: '/404', component: _import('404'), hidden: true},
 
     {
-        path: '/index',
+        path: '/dashboard',
         component: Layout,
+        redirect: '/dashboard/index',
         hidden: true,
         children: [
             {
-                path: '',
+                path: 'index',
                 component: _import('dashboard/index'),
                 meta: {title: '首页'}
             }
