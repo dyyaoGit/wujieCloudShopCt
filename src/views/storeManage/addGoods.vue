@@ -19,7 +19,7 @@
         </div>
         <el-form :model="actData" label-width="100px" label-position="left" :rules="rules">
             <el-form-item label="商品名称">
-                <el-select v-model="actData.goods_id" filterable placeholder="请选择商品，支持搜索">
+                <el-select v-model="actData.goods_id" filterable placeholder="请选择商品，支持搜索" :disabled="isCanEdit">
                     <el-option
                         v-for="item in GoodsList"
                         :key="item.id"
@@ -28,11 +28,24 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="秒杀价(元)" prop="kill_price">
-                <el-input v-model.number="actData.kill_price"></el-input>
+            <el-form-item label="普通会员秒杀价(元)" prop="common" label-width="150px" >
+                <el-input v-model.number="actData.common" :disabled="isCanEdit"></el-input>
+            </el-form-item>
+            <el-form-item label="一级会员秒杀价(元)" prop="first" label-width="150px">
+                <el-input v-model.number="actData.first" :disabled="isCanEdit"></el-input>
+            </el-form-item>
+            <el-form-item label="二级会员秒杀价(元)" prop="second" label-width="150px">
+                <el-input v-model.number="actData.second" :disabled="isCanEdit"></el-input>
+            </el-form-item>
+            <el-form-item label="三级会员秒杀价(元)" prop="third" label-width="150px">
+                <el-input v-model.number="actData.third" :disabled="isCanEdit"></el-input>
+            </el-form-item>
+            <el-form-item label="四级会员秒杀价(元)" prop="fourth" label-width="150px">
+                <el-input v-model.number="actData.fourth" :disabled="isCanEdit"></el-input>
             </el-form-item>
         </el-form>
-        <el-button type="danger" class="bottom-btn" @click="save">保存</el-button>
+        <el-button type="danger" class="bottom-btn" @click="save" v-if="!isCanEdit">保存</el-button>
+        <el-button type="primary" class="bottom-btn" @click="$router.back()" v-if="isCanEdit">返回</el-button>
     </div>
 </template>
 
@@ -55,11 +68,26 @@
                     goods_id: '',
                     kill_id: this.$route.query.id,
                     state: 0,
-                    kill_price: ''
+                    kill_price: {
+                        common: '',
+                        first: '',
+                        second: '',
+                        third: '',
+                        fourth: ''
+                    },
+                    common: '',
+                    first: '',
+                    second: '',
+                    third: '',
+                    fourth: ''
                 },
                 GoodsList: [],
                 rules: {
-                    kill_price: [{required: true, type: 'number', message: '价格必须为数字'}]
+                    common: [{required: true, type: 'number', message: '价格必须为数字'}],
+                    first: [{required: true, type: 'number', message: '价格必须为数字'}],
+                    second: [{required: true, type: 'number', message: '价格必须为数字'}],
+                    third: [{required: true, type: 'number', message: '价格必须为数字'}],
+                    fourth: [{required: true, type: 'number', message: '价格必须为数字'}]
                 }
             }
         },
@@ -68,6 +96,11 @@
                this.formData.logo = imgList[0]
             },
             save() {
+                this.actData.kill_price.common = this.actData.common;
+                this.actData.kill_price.first = this.actData.first;
+                this.actData.kill_price.second = this.actData.second;
+                this.actData.kill_price.third = this.actData.third;
+                this.actData.kill_price.fourth = this.actData.fourth;
                 this.$axios.post('applyAct', this.actData, res => {
                     if(res.ret == true){
                         this.$message.success('申请成功，请等待平台审核')
@@ -86,11 +119,25 @@
                 this.$axios.get('getGoodList', {}, res => {
                     this.GoodsList = res.data;
                 })
+            },
+            getEditData() {
+                if(this.$route.name === 'showDetails'){
+                    this.$axios.get('getAct', {id: this.$route.query.editId}, res => {
+                        if(res.ret){
+                            this.actData = {...res.data[0], ...res.data[0].kill_price}
+
+                        }
+                    })
+                }
             }
         },
         mounted() {
             this.getGoodsList()  //获取选择列表
             this.getActData()   //获取活动数据
+            this.getEditData() //获取修改数据
+            if(this.$route.name === 'showDetails'){
+                this.rules = {}
+            }
 
         },
         computed: {
@@ -103,6 +150,9 @@
                     }
                 }
                 return canSubmit
+            },
+            isCanEdit() {
+                return this.$route.name === 'showDetails'
             }
         }
     }

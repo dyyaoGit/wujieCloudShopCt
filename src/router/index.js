@@ -164,6 +164,13 @@ export const constantRouterMap = [
                 component: _import('storeManage/addGoods'),
                 meta: {title: '添加商品到活动'},
                 hidden: true
+            },
+            {
+                path: 'showDetails',
+                component: _import('storeManage/addGoods'),
+                meta: {title: '查看报名详情'},
+                hidden: true,
+                name: 'showDetails'
             }
         ]
     },

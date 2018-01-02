@@ -21,6 +21,7 @@
             <el-table-column prop="title" label="操作" width="220" fixed="right">
                 <template slot-scope="scope">
                     <!--<el-button type="danger" size="mini" @click="add(scope.row.id)">申请参加</el-button>-->
+                    <el-button type="danger" size="mini" @click="showMore(scope.row.id)">查看详情</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -61,6 +62,9 @@
                         }
                     })
                 }).catch(() => {this.$message({type: 'info', message: '已取消删除'});});
+            },
+            showMore(id) {
+                this.$router.push({name: 'showDetails', query: {id:this.$route.query.id, editId: id}})
             }
         },
         mounted() {

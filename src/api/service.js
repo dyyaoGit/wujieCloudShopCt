@@ -81,6 +81,8 @@ export default{
 //商户活动
     getAct: '/admin/kill_goods/get',  //获取
     applyAct: '/admin/kill_goods/add', //申请
+    updateAct: '/admin/kill_goods/update',  //修改
+
 
 
 
