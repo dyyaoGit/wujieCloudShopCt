@@ -85,6 +85,12 @@
                                 this.$message.success('登录成功，正在为您跳转首页...')
                                 setTimeout(() => {this.$router.push('/dashboard/index'); this.loading = false}, 1500)
                             }
+                            else if(res.msg === '请添加品牌'){
+                                console.log('应该跳转到品牌注册页面')
+
+                                // this.$router.push('/addBrand')
+                                this.$router.push({path: '/addBrand', query: {user: res.data}})
+                            }
                         })
                         this.loading = false;
 

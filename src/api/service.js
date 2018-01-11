@@ -29,6 +29,7 @@ export default{
 //用户注册
     getMsg: '/admin/admin/message', //获取短信验证码
     register: '/admin/admin/register', // 通过短信验证码注册
+    registorAddBrand: '/admin/admin/brandadd',    //用户注册时添加品牌信息
 
 //用户登录
     login: '/admin/admin/login', //用户登录

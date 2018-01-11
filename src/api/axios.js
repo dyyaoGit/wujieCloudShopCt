@@ -25,6 +25,7 @@ var ajax = {
                 }
                 else{
                     Vue.prototype.$message.error(res.data.msg);
+                    cb && cb(res.data);
                 }
             }
         }).catch((error) => {

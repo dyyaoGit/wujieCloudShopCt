@@ -21,6 +21,7 @@ export const constantRouterMap = [
     {path: '/', redirect: '/login', hidden: true},
     {path: '/login', component: _import('login/index'), hidden: true},
     {path: '/signUp', component: _import('login/signUp'), hidden: true},
+    {path: '/addBrand', component: _import('brandManage/addBrand'), hidden: true, name: 'registerAddBrand'},
     {path: '/404', component: _import('404'), hidden: true},
 
     {
